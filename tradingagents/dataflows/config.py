@@ -4,23 +4,26 @@ from typing import Dict, Optional
 # Use default config but allow it to be overridden
 _config: Optional[Dict] = None
 DATA_DIR: Optional[str] = None
+CSV_PATH: Optional[str] = None
 
 
 def initialize_config():
     """Initialize the configuration with default values."""
-    global _config, DATA_DIR
+    global _config, DATA_DIR, CSV_PATH
     if _config is None:
         _config = default_config.DEFAULT_CONFIG.copy()
         DATA_DIR = _config["data_dir"]
+        CSV_PATH = _config.get("market_csv_path")
 
 
 def set_config(config: Dict):
     """Update the configuration with custom values."""
-    global _config, DATA_DIR
+    global _config, DATA_DIR, CSV_PATH
     if _config is None:
         _config = default_config.DEFAULT_CONFIG.copy()
     _config.update(config)
     DATA_DIR = _config["data_dir"]
+    CSV_PATH = _config.get("market_csv_path")
 
 
 def get_config() -> Dict:

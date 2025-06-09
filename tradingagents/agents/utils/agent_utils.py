@@ -134,6 +134,18 @@ class Toolkit:
 
     @staticmethod
     @tool
+    def get_csv_market_data(
+        symbol: Annotated[str, "ticker symbol of the company"],
+        start_date: Annotated[str, "Start date in yyyy-mm-dd format"],
+        end_date: Annotated[str, "End date in yyyy-mm-dd format"],
+    ) -> str:
+        """Retrieve market data from a user supplied CSV file."""
+
+        csv_path = Toolkit._config.get("market_csv_path")
+        return interface.get_csv_market_data(symbol, csv_path, start_date, end_date)
+
+    @staticmethod
+    @tool
     def get_YFin_data_online(
         symbol: Annotated[str, "ticker symbol of the company"],
         start_date: Annotated[str, "Start date in yyyy-mm-dd format"],

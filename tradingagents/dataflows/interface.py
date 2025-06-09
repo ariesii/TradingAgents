@@ -702,6 +702,51 @@ def get_YFin_data(
     return filtered_data
 
 
+def get_csv_market_data(symbol: str, csv_path: str, start_date: str, end_date: str) -> str:
+    """Load market data from a CSV file and return a filtered CSV string.
+
+    Args:
+        symbol: Ticker symbol of the company.
+        csv_path: Path to the CSV file containing market data.
+        start_date: Start date in ``yyyy-mm-dd`` format.
+        end_date: End date in ``yyyy-mm-dd`` format.
+
+    Returns:
+        str: CSV formatted string of the data within the date range.
+    """
+
+    if not os.path.exists(csv_path):
+        raise FileNotFoundError(f"CSV file not found: {csv_path}")
+
+    data = pd.read_csv(csv_path)
+
+    # Filter by symbol column if it exists
+    for col in ["Symbol", "Ticker", "symbol", "ticker"]:
+        if col in data.columns:
+            data = data[data[col].astype(str).str.upper() == symbol.upper()]
+            break
+
+    # Determine the date column
+    date_col = None
+    for col in ["Date", "date", "Datetime", "datetime"]:
+        if col in data.columns:
+            date_col = col
+            break
+    if date_col is None:
+        raise ValueError("CSV must contain a Date column")
+
+    data[date_col] = pd.to_datetime(data[date_col]).dt.strftime("%Y-%m-%d")
+    filtered = data[(data[date_col] >= start_date) & (data[date_col] <= end_date)]
+
+    csv_string = filtered.to_csv(index=False)
+
+    header = f"# Stock data for {symbol.upper()} from {start_date} to {end_date}\n"
+    header += f"# Total records: {len(filtered)}\n"
+    header += f"# Data retrieved on: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n\n"
+
+    return header + csv_string
+
+
 def get_stock_news_openai(ticker, curr_date):
     client = OpenAI()
 
