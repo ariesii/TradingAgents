@@ -23,6 +23,7 @@ from .interface import (
     # Market data functions
     get_YFin_data_window,
     get_YFin_data,
+    get_csv_market_data,
 )
 
 __all__ = [
@@ -43,4 +44,5 @@ __all__ = [
     # Market data functions
     "get_YFin_data_window",
     "get_YFin_data",
+    "get_csv_market_data",
 ]

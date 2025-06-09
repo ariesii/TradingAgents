@@ -157,6 +157,8 @@ config["deep_think_llm"] = "gpt-4.1-nano"  # Use a different model
 config["quick_think_llm"] = "gpt-4.1-nano"  # Use a different model
 config["max_debate_rounds"] = 1  # Increase debate rounds
 config["online_tools"] = True # Use online tools or cached data
+config["market_csv_path"] = "/path/to/your/price_data.csv"  # Local CSV for market data
+config["chat_language"] = "Chinese"  # Respond in Chinese
 
 # Initialize with custom config
 ta = TradingAgentsGraph(debug=True, config=config)
@@ -167,6 +169,9 @@ print(decision)
 ```
 
 > For `online_tools`, we recommend enabling them for experimentation, as they provide access to real-time data. The agents' offline tools rely on cached data from our **Tauric TradingDB**, a curated dataset we use for backtesting. We're currently in the process of refining this dataset, and we plan to release it soon alongside our upcoming projects. Stay tuned!
+
+Set `market_csv_path` to point to a local CSV file if you want the agents to read market data from your own dataset.
+Set `chat_language` to "Chinese" if you prefer the agents to converse in Chinese.
 
 You can view the full list of configurations in `tradingagents/default_config.py`.
 

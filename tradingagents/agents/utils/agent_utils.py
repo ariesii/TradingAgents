@@ -31,6 +31,14 @@ class Toolkit:
         """Update the class-level configuration."""
         cls._config.update(config)
 
+    @classmethod
+    def language_instruction(cls):
+        """Return a short instruction indicating which language to use."""
+        lang = cls._config.get("chat_language", "English")
+        if lang.lower().startswith("chinese") or lang.lower().startswith("zh"):
+            return "请用中文回答。"
+        return "Please respond in English."
+
     @property
     def config(self):
         """Access the configuration."""
@@ -52,7 +60,7 @@ class Toolkit:
         Returns:
             str: A formatted dataframe containing the latest global news from Reddit in the specified time frame.
         """
-        
+
         global_news_result = interface.get_reddit_global_news(curr_date, 7, 5)
 
         return global_news_result
@@ -131,6 +139,18 @@ class Toolkit:
         result_data = interface.get_YFin_data(symbol, start_date, end_date)
 
         return result_data
+
+    @staticmethod
+    @tool
+    def get_csv_market_data(
+        symbol: Annotated[str, "ticker symbol of the company"],
+        start_date: Annotated[str, "Start date in yyyy-mm-dd format"],
+        end_date: Annotated[str, "End date in yyyy-mm-dd format"],
+    ) -> str:
+        """Retrieve market data from a user supplied CSV file."""
+
+        csv_path = Toolkit._config.get("market_csv_path")
+        return interface.get_csv_market_data(symbol, csv_path, start_date, end_date)
 
     @staticmethod
     @tool
