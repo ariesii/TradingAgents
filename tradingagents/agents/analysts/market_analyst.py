@@ -1,4 +1,5 @@
 from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
+from tradingagents.agents.utils.agent_utils import Toolkit
 import time
 import json
 
@@ -6,6 +7,7 @@ import json
 def create_market_analyst(llm, toolkit):
 
     def market_analyst_node(state):
+        lang_instruction = Toolkit.language_instruction()
         current_date = state["trade_date"]
         ticker = state["company_of_interest"]
         company_name = state["company_of_interest"]
@@ -22,6 +24,7 @@ def create_market_analyst(llm, toolkit):
             ]
 
         system_message = (
+            f"{lang_instruction} "
             """You are a trading assistant tasked with analyzing financial markets. Your role is to select the **most relevant indicators** for a given market condition or trading strategy from the following list. The goal is to choose up to **8 indicators** that provide complementary insights without redundancy. Categories and each category's indicators are:
 
 Moving Averages:

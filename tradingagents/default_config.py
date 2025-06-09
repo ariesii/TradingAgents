@@ -8,6 +8,7 @@ DEFAULT_CONFIG = {
         "dataflows/data_cache",
     ),
     "market_csv_path": None,
+    "chat_language": "English",
     # LLM settings
     "deep_think_llm": "o4-mini",
     "quick_think_llm": "gpt-4o-mini",

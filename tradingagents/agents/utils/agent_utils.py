@@ -31,6 +31,14 @@ class Toolkit:
         """Update the class-level configuration."""
         cls._config.update(config)
 
+    @classmethod
+    def language_instruction(cls):
+        """Return a short instruction indicating which language to use."""
+        lang = cls._config.get("chat_language", "English")
+        if lang.lower().startswith("chinese") or lang.lower().startswith("zh"):
+            return "请用中文回答。"
+        return "Please respond in English."
+
     @property
     def config(self):
         """Access the configuration."""
@@ -52,7 +60,7 @@ class Toolkit:
         Returns:
             str: A formatted dataframe containing the latest global news from Reddit in the specified time frame.
         """
-        
+
         global_news_result = interface.get_reddit_global_news(curr_date, 7, 5)
 
         return global_news_result
